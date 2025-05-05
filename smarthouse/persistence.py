@@ -135,8 +135,8 @@ SELECT ts, value, unit FROM measurements WHERE device = ? ORDER BY datetime(ts) 
 
     def insert_measurement(self, sensor: str, measurement: Measurement) -> None:
         query = f"""
-INSERT INTO measurements (device, ts, value, unit) VALUES (?, ?, ?, ?)
-        """
+                INSERT INTO measurements (device, ts, value, unit) VALUES (?, ?, ?, ?)
+                """
         c = self.cursor()
         c.execute(query, (sensor, measurement.timestamp, measurement.value, measurement.unit))
         self.conn.commit()
@@ -149,11 +149,11 @@ INSERT INTO measurements (device, ts, value, unit) VALUES (?, ?, ?, ?)
         Returns None if the given object has no sensor readings.
         """
         query = f"""
-SELECT ts, value, unit from measurements m 
-WHERE device = '{sensor.id}'
-order by ts desc 
-limit 1;
-        """
+                SELECT ts, value, unit from measurements m 
+                WHERE device = '{sensor.id}'
+                order by ts desc 
+                limit 1;
+                """
         c = self.cursor()
         c.execute(query)
         result = c.fetchall()

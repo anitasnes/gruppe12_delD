@@ -1,3 +1,4 @@
+
 import logging
 
 from smarthouse_temperature_sensor import Sensor
