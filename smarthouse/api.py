@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+
 from typing import Literal
 import uvicorn
 from fastapi import FastAPI, Response
@@ -8,6 +12,7 @@ from smarthouse.domain import Actuator, ActuatorWithSensor, Device, Floor, Measu
 from smarthouse.persistence import SmartHouseRepository
 from pydantic import BaseModel
 from pathlib import Path
+import os
 
 def setup_database():
     project_dir = Path(__file__).parent.parent
@@ -108,8 +113,11 @@ class ActuatorStateInfo(BaseModel):
 
 
 
-# http://localhost:8000/welcome/index.html
-app.mount("/static", StaticFiles(directory="www"), name="static")
+if not (Path.cwd() / "www").exists():
+    os.chdir(Path.cwd().parent)
+if (Path.cwd() / "www").exists():
+    # http://localhost:8000/welcome/index.html
+    app.mount("/static", StaticFiles(directory="www"), name="static")
 
 
 # http://localhost:8000/ -> welcome page
