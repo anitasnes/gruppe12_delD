@@ -239,7 +239,7 @@ def update_sensor_state(uuid: str, target_state: ActuatorStateInfo) -> Response:
     if device and isinstance(device, Actuator):
         if isinstance(target_state.state, float):
             device.turn_on(target_state.state)
-        elif target_state.state == "running":
+        elif target_state.state == "running" or target_state.state == "on":
             device.turn_on()
         elif target_state.state == "off":
             device.turn_off()

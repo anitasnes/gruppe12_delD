@@ -14,9 +14,17 @@ def refresh_btn_cmd(temp_widget, did):
 
     # TODO: START
     # send request to cloud service to obtain current temperature
+    try:
+        url = f"http://127.0.0.1:8000/smarthouse/sensor/4d8b1d62-7921-4917-9b70-bbd31f6e2e8e/current"
+        response = requests.get(url, auth=("user", "pass"))
+        data = response.json()
 
-    # replace statement below with measurement from response
-    sensor_measurement = SensorMeasurement(init_value="-273.15")
+        # replace statement below with measurement from response
+        sensor_measurement = SensorMeasurement(init_value=str(data["value"]))
+
+    except Exception as e:
+        logging.error(f"Could not fetch temperature: {e}")
+        sensor_measurement = SensorMeasurement(init_value="Error")
 
     # TODO: END
 
